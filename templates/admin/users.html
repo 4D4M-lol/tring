@@ -35,7 +35,7 @@
                         </td>
                         <td class="action-cell">
                             {% if u.id != current_user.id %}
-                                <form action="{{ url_for('admin.toggle_user_admin', user_id=u.id) }}" method="POST">
+                                <form action="{{ url_for('admin.toggle_admin', user_id=u.id) }}" method="POST">
                                     <button type="submit" class="btn-secondary-sm">
                                         {{ 'Turunkan Admin' if u.is_admin else 'Jadikan Admin' }}
                                     </button>

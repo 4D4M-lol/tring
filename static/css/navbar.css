@@ -1,5 +1,5 @@
 .navbar {
-    height: auto; /* Biarkan tinggi menyesuaikan konten jika turun ke bawah di HP */
+    height: auto;
     min-height: 56px;
     background-color: var(--bg-card);
     border-bottom: 1px solid var(--border-color);
@@ -10,7 +10,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    flex-wrap: wrap; /* Memungkinkan elemen turun baris jika layar sempit */
+    flex-wrap: wrap;
     gap: 12px;
 }
 

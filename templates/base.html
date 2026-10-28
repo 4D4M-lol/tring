@@ -43,12 +43,12 @@
         </form>
 
         <div class="nav-right">
-            <button type="button" class="btn-theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <button type="button" class="btn-theme-toggle hide-mobile " onclick="toggleTheme()" aria-label="Toggle Theme">
                 <i id="theme-toggle-icon" data-lucide="moon"></i>
             </button>
 
             {% if current_user.is_authenticated %}
-                <a href="{{ url_for('profile.view_profile', username=current_user.username) }}" class="profile-link">
+                <a href="{{ url_for('profile.view_profile', username=current_user.username) }}" class="profile-link hide-mobile">
                     {% if current_user.profile_picture and current_user.profile_picture != "default.jpg" %}
                         <img 
                             src="{{ url_for('static', filename='uploads/avatars/' + current_user.profile_picture) }}" 
@@ -89,6 +89,38 @@
             {% endif %}
         {% endwith %}
     </div>
+    <nav class="mobile-bottom-nav">
+        <a href="{{ url_for('main.home') }}" class="bottom-nav-item {{ 'active' if request.endpoint == 'main.home' }}">
+            <i data-lucide="home"></i>
+            <span>Beranda</span>
+        </a>
+
+        <a href="{{ url_for('withdrawal.withdraw') }}" class="bottom-nav-item {{ 'active' if request.endpoint == 'withdrawal.withdraw' }}">
+            <i data-lucide="coins"></i>
+            <span>Poin</span>
+        </a>
+
+        <a href="{{ url_for('posts.create_post') }}" class="bottom-nav-action-btn" title="Buat Post">
+            <i data-lucide="plus"></i>
+        </a>
+
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('profile.view_profile', username=current_user.username) }}" class="bottom-nav-item {{ 'active' if request.endpoint == 'profile.view_profile' }}">
+                <i data-lucide="user"></i>
+                <span>Profil</span>
+            </a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}" class="bottom-nav-item">
+                <i data-lucide="user"></i>
+                <span>Masuk</span>
+            </a>
+        {% endif %}
+
+        <button type="button" class="bottom-nav-item" onclick="toggleTheme()" style="background: none; border: none; cursor: pointer; font-family: inherit;">
+            <i data-lucide="sun-moon"></i>
+            <span>Tema</span>
+        </button>
+    </nav>
 
     {% block content %}{% endblock %}
 

@@ -65,7 +65,7 @@
             {% if posts %}
                 <div class="post-list">
                     {% for post in posts %}
-                        {{ render_post(posts, post, user_votes) }}
+                        {{ render_post(current_user, posts, post, user_votes) }}
                     {% else %}
                         <p style="color: var(--text-secondary); text-align: center; padding: 32px;">Jadi yang pertama untuk membuat post!</p>
                     {% endfor %}

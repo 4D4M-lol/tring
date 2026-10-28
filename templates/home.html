@@ -4,30 +4,28 @@
 {% block content %}
 <div class="layout-container">
 
-    <aside class="sidebar-left">
-        <a href="{{ url_for('main.home') }}" class="nav-item {{ 'active' if not current_category }}">
-            <i data-lucide="home"></i> Semua Post
-        </a>
-
-        <div style="margin: 16px 0 8px 12px; font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">
-            Kategori
-        </div>
-
-        {% for category in categories %}
-            <a href="{{ url_for('main.home', category=category.slug) }}" class="nav-item {{ 'active' if current_category and current_category.id == category.id }}">
-                <i data-lucide="{{ category.icon or 'hash' }}"></i> {{ category.name }}
+    <aside class="sidebar-left hide-mobile">
+        <div class="category-scroll-wrapper">
+            <a href="{{ url_for('main.home') }}" class="nav-item {{ 'active' if not current_category }}" title="Semua Post">
+                <i data-lucide="home"></i> <span class="nav-label">Semua Post</span>
             </a>
-        {% endfor %}
+
+            <div class="category-divider-label">Kategori</div>
+
+            {% for category in categories %}
+                <a href="{{ url_for('main.home', category=category.slug) }}" class="nav-item {{ 'active' if current_category and current_category.id == category.id }}" title="{{ category.name }}">
+                    <i data-lucide="{{ category.icon or 'hash' }}"></i> <span class="nav-label">{{ category.name }}</span>
+                </a>
+            {% endfor %}
+        </div>
     </aside>
 
     <main class="feed-container">
-
         {% for post in posts %}
             {{ render_post(current_user, posts, post, user_votes) }}
         {% else %}
             <p style="color: var(--text-secondary); text-align: center; padding: 32px;">Jadi yang pertama untuk membuat post!</p>
         {% endfor %}
-
     </main>
 
     <aside class="sidebar-right">
@@ -42,14 +40,15 @@
             </div>
         {% endif %}
 
-        <div class="widget-card">
+        <div class="widget-card hide-mobile">
             <h3>Tentang Tring</h3>
             <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 12px;">
                 Tring adalah suatu platform yang berbasis komunitas untuk mendapatkan uang dari berbagi pengetahuan.
             </p>
             <a href="{{ url_for('posts.create_post') }}" class="btn-primary" style="display: block; text-align: center; text-decoration: none;">Buat Post</a>
         </div>
-        <div class="widget-card">
+        
+        <div class="widget-card hide-mobile">
             <h3>Tukarkan Poin</h3>
             <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 12px;">
                 Tukarkan brainpoint (Bp) menjadi uang asli, minimal penukaran adalah 500 Bp dengan 1 Bp = Rp 10.
