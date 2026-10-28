@@ -163,7 +163,7 @@ def view_post(post_id):
 @posts_bp.route("/comment/<int:comment_id>/vote", methods=["POST"])
 def vote_comment(comment_id):
     if "user_id" not in session:
-        flash("You need to be logged in to vote.", "error")
+        flash("Kamu harus login untuk meng-vote.", "error")
         
         return redirect(url_for("auth.login"))
 
@@ -201,19 +201,22 @@ def vote_comment(comment_id):
             update_user_points(giver, receiver, -5)
 
     db.session.commit()
+    
     return redirect(url_for("posts.view_post", post_id=comment.post_id))
 
 @posts_bp.route("/post/<int:post_id>/comment", methods=["POST"])
 def add_comment(post_id):
     if "user_id" not in session:
-        flash("You need to be logged in to comment.", "error")
+        flash("Kamu harus login untuk komen.", "error")
+        
         return redirect(url_for("auth.login"))
 
     content = request.form.get("content", "").strip()
     parent_id = request.form.get("parent_id")
 
     if not content:
-        flash("Comment can not be empty.", "error")
+        flash("Komen tidak bisa kosong.", "error")
+        
         return redirect(url_for("posts.view_post", post_id=post_id))
 
     new_comment = Comment(
@@ -226,13 +229,15 @@ def add_comment(post_id):
     db.session.add(new_comment)
     db.session.commit()
 
-    flash("Comment sent!", "success")
+    flash("Komen dikirim!", "success")
+    
     return redirect(url_for("posts.view_post", post_id=post_id))
 
 @posts_bp.route("/post/<int:post_id>/vote", methods=["POST"])
 def vote(post_id):
     if "user_id" not in session:
-        flash("You need to be logged in to vote", "error")
+        flash("Kamu harus login untuk meng-vote.", "error")
+        
         return redirect(url_for("auth.login"))
 
     user_id = session["user_id"]
@@ -272,6 +277,7 @@ def vote(post_id):
             update_user_points(giver, receiver, -5)
 
     db.session.commit()
+    
     return redirect(request.referrer or url_for("main.home"))
 
 @posts_bp.route("/post/<int:post_id>/mark-solution/<int:comment_id>", methods=["POST"])
@@ -282,12 +288,12 @@ def mark_solution(post_id, comment_id):
     post_owner = current_user
 
     if post.user_id != post_owner.id:
-        flash("You need to have access in order to choose the solution for this problem.", "danger")
+        flash("Kamu harus mempunyai akses untuk memilih jawaban terbaik.", "danger")
         
         return redirect(url_for("posts.view_post", post_id=post.id))
 
     if comment.post_id != post.id:
-        flash("The chosen comment is not valid for this post.", "warning")
+        flash("Komen yang dipilih tidak valid untuk dipilih", "warning")
         
         return redirect(url_for("posts.view_post", post_id=post.id))
 
@@ -307,11 +313,11 @@ def mark_solution(post_id, comment_id):
         
         update_user_points(post_owner, solver, 200, rep_delta=0)
         
-        solver.reputation += 25
+        solver.reputation += 5
 
-        flash("Successfully marked comment as the solution (+200 Brainpoints & +25 Reputation awarded)!", "success")
+        flash("Berhasil menandai komen terbaik!", "success")
     else:
-        flash("This comment is already marked as the solution.", "info")
+        flash("Komen sudah dipilih menjadi yang terbaik.", "info")
 
     db.session.commit()
     

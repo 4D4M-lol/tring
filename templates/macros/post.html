@@ -1,4 +1,4 @@
-{% macro render_post(posts, post, user_votes) %}
+{% macro render_post(current_user, posts, post, user_votes) %}
 
 <article class="post-card">
 
@@ -59,14 +59,24 @@
 
             <a href="{{ url_for('posts.view_post', post_id=post.id) }}" class="action-btn">
                 <i data-lucide="message-square"></i>
-                <span>{{ post.comments|length }} Comments</span>
+                <span>{{ post.comments|length }} Komen</span>
             </a>
 
             <button type="button" class="action-btn" onclick="sharePost('{{ url_for('posts.view_post', post_id=post.id, _external=True) }}', this)">
                 <i data-lucide="share-2"></i>
-                <span>Share</span>
+                <span>Bagikan</span>
             </button>
         </div>
+
+        {% if current_user.is_authenticated and current_user.is_admin %}
+            <div style="margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--border-color); display: flex; justify-content: flex-end;">
+                <form action="{{ url_for('admin.delete_post', post_id=post.id) }}" method="POST" onsubmit="return confirm('Hapus postingan ini sebagai Admin?');">
+                    <button type="submit" style="background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                        <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Hapus Post (Admin)
+                    </button>
+                </form>
+            </div>
+        {% endif %}
     </div>
 
 </article>

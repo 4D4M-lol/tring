@@ -11,10 +11,10 @@
                     style="max-height: 500px; object-fit: contain;"
                 >
 
-            {% elif item.media_type == "image" %}
+            {% elif item.media_type == "video" %}
                 <video controls class="w-100 rounded">
                     <source src="{{ url_for('static', filename='uploads/posts/' ~ item.file_path) }}">
-                    Your browser doesn't support videos.
+                    Browser mu tidak mendukung video.
                 </video>
 
             {% elif item.media_type == "audio" %}
@@ -25,13 +25,13 @@
                     </div>
                     <audio controls class="w-100">
                         <source src="{{ url_for('static', filename='uploads/posts/' ~ item.file_path) }}">
-                        Your browser doesn't support audios.
+                        Browser mu tidak mendukung audio.
                     </audio>
                 </div>
 
             {% else %}
                 <a href="{{ url_for('static', filename='uploads/posts/' ~ item.file_path) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
-                    Download File ({{ item.file_path }})
+                    Unduh File ({{ item.file_path }})
                 </a>
             {% endif %}
 

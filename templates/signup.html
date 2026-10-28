@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Sign Up | Tring{% endblock %}
+{% block title %}Signup | Tring{% endblock %}
 
 {% block content %}
 <div class="auth-container">
@@ -11,20 +11,9 @@
             <div class="auth-icon">
                 <i data-lucide="user-plus"></i>
             </div>
-            <h1>Create an account</h1>
-            <p class="auth-subtitle">Join the SolveHub community</p>
+            <h1>Buat akun</h1>
+            <p class="auth-subtitle">Ikuti komunitas Tring</p>
         </div>
-
-        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
-                        <i data-lucide="{{ 'alert-circle' if category == 'error' else 'check-circle' }}"></i>
-                        <span>{{ message }}</span>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %} -->
 
         <form method="POST" class="auth-form">
 
@@ -34,7 +23,7 @@
                     type="text"
                     id="username"
                     name="username"
-                    placeholder="Choose a username"
+                    placeholder="Pilih username..."
                     required
                 >
             </div>
@@ -47,7 +36,7 @@
                         id="password" 
                         name="password" 
                         class="form-control" 
-                        placeholder="Enter password..." 
+                        placeholder="Masukan password..." 
                         required
                     >
                     <button 
@@ -62,13 +51,13 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-primary">Sign Up</button>
+            <button type="submit" class="btn-primary">Signup</button>
 
         </form>
 
         <p class="auth-footer">
-            Already have an account?
-            <a href="{{ url_for('auth.login') }}">Log In</a>
+            Sudah punya akun?
+            <a href="{{ url_for('auth.login') }}">Login</a>
         </p>
 
     </div>

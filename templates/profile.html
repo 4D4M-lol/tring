@@ -24,7 +24,7 @@
                 <div class="profile-title-row">
                     <div>
                         <h1 class="profile-display-name">@{{ user.username }}</h1>
-                        <p class="profile-joined">Joined {{ user.created_at.strftime("%B %Y") if user.created_at else "Recently" }}</p>
+                        <p class="profile-joined">Bergabung {{ user.created_at.strftime("%B %Y") if user.created_at else "Recently" }}</p>
                         
                         {% if user.bio %}
                             <p class="profile-bio">{{ user.bio }}</p>
@@ -33,7 +33,7 @@
                     
                     {% if current_user.is_authenticated and current_user.username == user.username %}
                         <a href="{{ url_for('profile.settings') }}" class="btn-edit-profile" style="display: inline-block !important; background: #6366f1; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600;">
-                            Edit Profile
+                            Edit Profil
                         </a>
                     {% endif %}
                 </div>
@@ -66,11 +66,11 @@
 
     <div class="posts-list">
         {% for post in user.posts %}
-            {{ render_post(posts, post, user_votes) }}
+            {{ render_post(current_user, posts, post, user_votes) }}
         {% else %}
             <div class="empty-state">
                 <i data-lucide="file-text" style="width: 48px; height: 48px; color: var(--text-secondary);"></i>
-                <p>This user haven't posted anything.</p>
+                <p>Pengguna ini belum membuat post.</p>
             </div>
         {% endfor %}
     </div>

@@ -18,9 +18,10 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Metode Pembayaran (E-Wallet / QRIS)</label>
+                <label class="form-label">Metode Pembayaran</label>
                 <select name="payment_method" required class="form-select">
                     <option value="" disabled selected>Pilih metode penarikan</option>
+                    <option value="Tunai">Tunai</option>
                     <option value="QRIS">QRIS</option>
                     <option value="DANA">DANA</option>
                     <option value="GoPay">GoPay</option>
@@ -37,7 +38,6 @@
         </form>
     </div>
 
-    <!-- Bagian Riwayat Penarikan -->
     <div class="history-section">
         <h3>Riwayat Penarikan Anda</h3>
         {% if history %}

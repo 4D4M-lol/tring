@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="settings-container" style="max-width: 650px; margin: 0 auto; padding: 20px;">
-    <h2>Account Settings</h2>
+    <h2>Pengaturan Akun</h2>
 
     <div class="settings-card">
         <h3>Bio</h3>
         <form action="{{ url_for('profile.settings') }}" method="POST">
             <input type="hidden" name="action" value="update_bio">
-            <textarea name="bio" rows="3" maxlength="160" placeholder="Write a short bio..." style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); padding: 10px; border-radius: var(--radius-md); font-family: inherit;" required>{{ current_user.bio or '' }}</textarea>
-            <button type="submit" class="btn-primary">Save Bio</button>
+            <textarea name="bio" rows="3" maxlength="160" placeholder="Tulis bio..." style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); padding: 10px; border-radius: var(--radius-md); font-family: inherit;" required>{{ current_user.bio or '' }}</textarea>
+            <button type="submit" class="btn-primary">Simpan Bio</button>
         </form>
     </div>
 
@@ -16,12 +16,12 @@
         <h3>Username</h3>
         {% set can, days = cooldowns['username'] %}
         {% if not can %}
-            <p class="cooldown-warning">You can change your username again in <strong>{{ days }} days</strong>.</p>
+            <p class="cooldown-warning">Kamu bisa mengganti username mu lagi dalam <strong>{{ days }} hari</strong>.</p>
         {% endif %}
         <form action="{{ url_for('profile.settings') }}" method="POST">
             <input type="hidden" name="action" value="update_username">
             <input type="text" name="username" value="{{ current_user.username }}" required {{ 'disabled' if not can }} style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-md);">
-            <button type="submit" class="btn-primary" {{ 'disabled' if not can }}>Change Username</button>
+            <button type="submit" class="btn-primary" {{ 'disabled' if not can }}>Ubah Username</button>
         </form>
     </div>
 
@@ -30,7 +30,7 @@
         <form action="{{ url_for('profile.settings') }}" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="action" value="update_pfp">
             <input type="file" name="pfp_file" accept="image/*" required>
-            <button type="submit" class="btn-primary">Change Profile Picture</button>
+            <button type="submit" class="btn-primary">Ubah Foto Profil</button>
         </form>
     </div>
 
@@ -39,7 +39,7 @@
         <form action="{{ url_for('profile.settings') }}" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="action" value="update_banner">
             <input type="file" name="banner_file" accept="image/*" required>
-            <button type="submit" class="btn-primary">Change Banner</button>
+            <button type="submit" class="btn-primary">Ubah Banner</button>
         </form>
     </div>
 
@@ -47,13 +47,13 @@
         <h3>Password</h3>
         {% set can, days = cooldowns['password'] %}
         {% if not can %}
-            <p class="cooldown-warning">You can change your password again in <strong>{{ days }} days</strong>.</p>
+            <p class="cooldown-warning">Kamu bisa mengganti password mu lagi dalam <strong>{{ days }} hari</strong>.</p>
         {% endif %}
         <form action="{{ url_for('profile.settings') }}" method="POST">
             <input type="hidden" name="action" value="update_password">
-            <input type="password" name="old_password" placeholder="Old Password" required {{ 'disabled' if not can }} style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-md);">
-            <input type="password" name="new_password" placeholder="New Password" required {{ 'disabled' if not can }} style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-md);">
-            <button type="submit" class="btn-primary" {{ 'disabled' if not can }}>Change Password</button>
+            <input type="password" name="old_password" placeholder="Password Lama" required {{ 'disabled' if not can }} style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-md);">
+            <input type="password" name="new_password" placeholder="Password Baru" required {{ 'disabled' if not can }} style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-md);">
+            <button type="submit" class="btn-primary" {{ 'disabled' if not can }}>Ubah Password</button>
         </form>
     </div>
 </div>

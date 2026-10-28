@@ -4,18 +4,18 @@
 {% block content %}
 <div class="search-wrapper">
     <div class="search-header">
-        <h2>Search Results</h2>
+        <h2>Hasil Pencarian</h2>
         {% if query %}
-            <p>Showing results for <strong>"{{ query }}"</strong></p>
+            <p>Menunjukan hasil dengan kata kunci <strong>"{{ query }}"</strong></p>
         {% else %}
-            <p>Type a query in the search bar to search a user or a post.</p>
+            <p>Ketik kata kunci untuk mencari post atau pengguna.</p>
         {% endif %}
     </div>
 
     {% if query %}
         <div class="search-section">
             <div class="section-title">
-                <span>Users</span>
+                <span>Pengguna</span>
                 <span class="badge-count">{{ users|length }}</span>
             </div>
 
@@ -38,7 +38,7 @@
                                     {% endif %}
                                     <div class="user-name">@{{ user.username }}</div>
                                 </div>
-                                <span class="btn-profile">See Profile</span>
+                                <span class="btn-profile">Lihat Profil</span>
                             </a>
                         </div>
                     {% endfor %}
@@ -46,19 +46,19 @@
 
                 {% if users|length > 4 %}
                     <button type="button" class="btn-show-more-users" id="toggle-users-btn" onclick="toggleMoreUsers()">
-                        Show More Users ({{ users|length - 4 }} more)
+                        Tunjukan pengguna lainnya ({{ users|length - 4 }} more)
                     </button>
                 {% endif %}
             {% else %}
                 <div class="empty-state">
-                    User "{{ query }}" not found.
+                    Pengguna yang bernama "{{ query }}" tidak ditemukan.
                 </div>
             {% endif %}
         </div>
 
         <div class="search-section">
             <div class="section-title">
-                <span>Posts</span>
+                <span>Post</span>
                 <span class="badge-count">{{ posts|length }}</span>
             </div>
 
@@ -67,12 +67,12 @@
                     {% for post in posts %}
                         {{ render_post(posts, post, user_votes) }}
                     {% else %}
-                        <p style="color: var(--text-secondary); text-align: center; padding: 32px;">Be the first one to post!</p>
+                        <p style="color: var(--text-secondary); text-align: center; padding: 32px;">Jadi yang pertama untuk membuat post!</p>
                     {% endfor %}
                 </div>
             {% else %}
                 <div class="empty-state">
-                    No post found for "{{ query }}".
+                    Tidak ada post yang ditemukan dengan kata kunci "{{ query }}".
                 </div>
             {% endif %}
         </div>
@@ -92,10 +92,10 @@ function toggleMoreUsers() {
 
     if (isExpanded) {
         btn.setAttribute("data-expanded", "false");
-        btn.innerHTML = `Show More Users (${hiddenItems.length} more)`;
+        btn.innerHTML = `Tunjukan lebih banyak (${hiddenItems.length} lagi)`;
     } else {
         btn.setAttribute("data-expanded", "true");
-        btn.innerHTML = "Show Less Users";
+        btn.innerHTML = "Tunjukan lebih sedikit";
     }
 }
 

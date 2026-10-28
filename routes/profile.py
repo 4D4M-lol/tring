@@ -49,7 +49,8 @@ def view_profile(username):
         "profile.html", 
         user=target_user, 
         is_own_profile=is_own_profile,
-        user_votes = user_votes
+        user_votes=user_votes,
+        current_user=current_user
     )
 
 @profile_bp.route("/settings", methods=["GET", "POST"])
@@ -66,45 +67,45 @@ def settings():
             
             db.session.commit()
             
-            flash("Bio successfully updated!", "success")
+            flash("Bio berhasil diubah!", "success")
         elif action == "update_username":
             can_change, days_left = \
                 check_cooldown(current_user.last_username_change, "username")
             
             if not can_change:
-                flash(f"You can change your username again in {days_left} days.", "danger")
+                flash(f"Kamu bisa mengganti username lagi dalam {days_left} hari.", "danger")
             else:
                 new_username = request.form.get("username").strip()
                 existing_user = User.query.filter_by(username=new_username).first()
                 
                 if existing_user and existing_user.id != current_user.id:
-                    flash("Username is taken.", "danger")
+                    flash("Username sudah diambil.", "danger")
                 else:
                     current_user.username = new_username
                     current_user.last_username_change = now
                     
                     db.session.commit()
                     
-                    flash("Username successfully updated!", "success")
+                    flash("Username berhasil dirubah!", "success")
         elif action == "update_password":
             can_change, days_left = \
                 check_cooldown(current_user.last_password_change, "password")
                 
             if not can_change:
-                flash(f"You can change your password again in {days_left} days.", "danger")
+                flash(f"Kamu bisa mengganti username lagi dalam {days_left} hari.", "danger")
             else:
                 old_pass = request.form.get("old_password")
                 new_pass = request.form.get("new_password")
                 
                 if not check_password_hash(current_user.password_hash, old_pass):
-                    flash("Wrong password.", "danger")
+                    flash("Password salah.", "danger")
                 else:
                     current_user.password_hash = generate_password_hash(new_pass)
                     current_user.last_password_change = now
                     
                     db.session.commit()
                     
-                    flash("Password successfully updated!", "success")
+                    flash("Password berhasil dirubah!", "success")
         elif action == "update_pfp":
             file = request.files.get("pfp_file")
             
@@ -119,7 +120,7 @@ def settings():
                 
                 db.session.commit()
                 
-                flash("Profile picture successfully updated!", "success")
+                flash("Foto profil berhasil dirubah!", "success")
         elif action == "update_banner":
             file = request.files.get("banner_file")
             
@@ -134,7 +135,7 @@ def settings():
                 
                 db.session.commit()
                 
-                flash("Banner successfully updated!", "success")
+                flash("Banner berhasil dirubah!", "success")
 
         return redirect(url_for("profile.settings"))
 

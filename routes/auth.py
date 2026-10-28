@@ -18,13 +18,13 @@ def is_valid_username(username):
 
 def is_valid_password(password):
     if len(password) < 8:
-        return False, "Password needs to contain at least 8 characters."
+        return False, "Password harus memiliki setidaknya 8 huru."
     if not re.search(r"[A-Z]", password):
-        return False, "Password needs to have at least 1 uppercased letter i itn."
+        return False, "Password harus memiliki setidaknya 1 huruf kapital."
     if not re.search(r"[a-z]", password):
-        return False, "Password needs to have at least 1 lowercase letter in it."
+        return False, "Password harus memiliki setidaknya 1 huruf kecil."
     if not re.search(r"[0-9]", password):
-        return False, "Password needs to have at least 1 number in it."
+        return False, "Password harus memiliki setidaknya 1 angka."
     
     return True, ""
 
@@ -37,7 +37,7 @@ def signup():
     password = request.form.get("password", "").strip()
 
     if not is_valid_username(username):
-        flash("Username can only contains letters, numbers, dash (-), and underscore (_). The length of a username needs to be inbetween 3 to 30.", "error")
+        flash("Username hanya bisa memiliki huruf kapital dan kecil, angka, underscore (_) atau strip (-). Panjang username harus diantara 3 sampai 30", "error")
         
         return redirect(url_for("auth.signup"))
 
@@ -51,7 +51,7 @@ def signup():
     existing_user = User.query.filter_by(username=username).first()
     
     if existing_user:
-        flash("Username is taken, choose another one.", "error")
+        flash("Username sudah dipakai, coba lagi.", "error")
         
         return redirect(url_for("auth.signup"))
 
@@ -65,7 +65,7 @@ def signup():
     db.session.add(user)
     db.session.commit()
 
-    flash("Account succesfully created. You can now log into your account.", "success")
+    flash("Akun berhasil dibuat, silahkan login.", "success")
     
     return redirect(url_for("auth.login"))
 
@@ -78,7 +78,7 @@ def login():
     password = request.form.get("password", "").strip()
 
     if not username or not password:
-        flash("Username and password must be filled.", "error")
+        flash("Username dan password harus diisi.", "error")
         
         return redirect(url_for("auth.login"))
 
@@ -93,7 +93,7 @@ def login():
 
         return redirect(url_for("main.home"))
 
-    flash("Username or password is wrong.", "error")
+    flash("Username atau password salah.", "error")
     
     return redirect(url_for("auth.login"))
 
@@ -109,21 +109,6 @@ def logout():
     
     response.set_cookie("session", "", expires=0)
     
-    flash("Successfully logged out.", "success")
-    
-    return response
-
-@auth_bp.route("/reset-session")
-def reset_session():
-    session.clear()
-    
-    if current_user.is_authenticated:
-        logout_user()
-        
-    response = make_response(redirect(url_for("main.home")))
-    
-    response.set_cookie("session", "", expires=0)
-    
-    flash("Session reset!", "info")
+    flash("Berhasil logout.", "success")
     
     return response

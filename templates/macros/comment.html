@@ -4,7 +4,7 @@
 
     {% if post.solved_comment_id == comment.id %}
         <div class="best-answer-badge">
-            <i data-lucide="check"></i> Best Answer
+            <i data-lucide="check"></i> Solusi
         </div>
     {% endif %}
 
@@ -46,7 +46,7 @@
         </div>
 
         <button type="button" class="btn-reply" onclick="toggleReplyForm('{{ comment.id }}')">
-            <i data-lucide="message-square"></i> Reply
+            <i data-lucide="message-square"></i> Jawab
         </button>
 
         {% if comment.replies %}
@@ -59,7 +59,7 @@
         {% if current_user.is_authenticated and current_user.id == post.user_id and not post.is_solved %}
             <form action="{{ url_for('posts.mark_solution', post_id=post.id, comment_id=comment.id) }}" method="POST" class="inline-form">
                 <button type="submit" class="btn-solution {{ 'active' if (post.solved_comment_id == comment.id) }}">
-                    Mark as Solution
+                    Tandakan Sebagai Solusi
                 </button>
             </form>
         {% endif %}
@@ -69,10 +69,18 @@
         <input type="hidden" name="parent_id" value="{{ comment.id }}">
         <textarea name="content" rows="2" placeholder="Tulis balasan..." required></textarea>
         <div class="reply-actions-wrapper">
-            <button type="button" class="btn-secondary" onclick="toggleReplyForm('{{ comment.id }}')">Cancel</button>
-            <button type="submit" class="btn-primary">Send Reply</button>
+            <button type="button" class="btn-secondary" onclick="toggleReplyForm('{{ comment.id }}')">Batalkan</button>
+            <button type="submit" class="btn-primary">Kirim Jawaban</button>
         </div>
     </form>
+
+    {% if current_user.is_authenticated and current_user.is_admin %}
+        <form action="{{ url_for('admin.delete_comment', comment_id=comment.id) }}" method="POST" onsubmit="return confirm('Hapus komentar ini sebagai Admin?');" style="margin-top: 8px;">
+            <button type="submit" style="background: rgba(220, 38, 38, 0.15); color: #dc2626; border: 1px solid #dc2626; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer;">
+                Hapus Komentar (Admin)
+            </button>
+        </form>
+    {% endif %}
     
     {% if comment.replies %}
         <div class="comment-replies" id="replies-container-{{ comment.id }}">

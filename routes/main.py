@@ -38,8 +38,12 @@ def home():
     )
 
     user_votes = { }
+    current_user = None  # Tambahkan variabel default
     
     if "user_id" in session:
+        # Ambil data user yang sedang login
+        current_user = User.query.get(session["user_id"])
+        
         votes = PostVote.query.filter_by(user_id=session["user_id"]).all()
         user_votes = { vote.post_id: vote.vote_type for vote in votes }
 
@@ -48,7 +52,8 @@ def home():
         posts=posts,
         categories=categories,
         current_category=current_category,
-        user_votes=user_votes
+        user_votes=user_votes,
+        current_user=current_user
     )
 
 @main_bp.route("/search")

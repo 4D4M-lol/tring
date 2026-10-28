@@ -1,31 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Create Post | Tring{% endblock %}
+{% block title %}Buat Post | Tring{% endblock %}
 
 {% block content %}
 <div class="auth-container">
     
     <div class="auth-card" style="max-width: 600px;">
         <div class="auth-header">
-            <h1>Create a Post</h1>
+            <h1>Buat Post</h1>
         </div>
-
-        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
-                        <i data-lucide="alert-circle"></i>
-                        <span>{{ message }}</span>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %} -->
 
         <form action="{{ url_for('posts.create_post') }}" method="POST" enctype="multipart/form-data" class="auth-form">
             <div class="form-group">
-                <label for="category_id">Category</label>
+                <label for="category_id">Kategori</label>
                 <select id="category_id" name="category_id" required style="width: 100%; padding: 10px; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-md);">
-                    <option value="" disabled selected>Select a category</option>
+                    <option value="" disabled selected>Pilih Kategori</option>
                     {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}
@@ -33,17 +22,17 @@
             </div>
 
             <div class="form-group">
-                <label for="title">Title</label>
+                <label for="title">Judul</label>
                 <input type="text" id="title" name="title" placeholder="Title" required>
             </div>
 
             <div class="form-group">
-                <label for="content">Text Content</label>
+                <label for="content">Konten</label>
                 <textarea id="content" name="content" rows="6" placeholder="Text" style="background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); padding: 10px; border-radius: var(--radius-md); font-family: inherit;" required></textarea>
             </div>
 
             <div class="form-group">
-                <label>Add an Attachment (Image, Video, Audio - 4 Files Maximum)</label>
+                <label>Tambahkan Lampiran (Gambar, Video, Audio - 4 File Maximal)</label>
                 <input 
                     type="file" 
                     name="media" 
@@ -53,7 +42,7 @@
                     class="media-file-input"
                 >
                 <small style="color: var(--text-secondary); display: block; margin-top: 4px;">
-                    Supported format: PNG, JPG, MP4, WEBM, MP3, WAV
+                    Format yang valid: PNG, JPG, MP4, WEBM, MP3, WAV
                 </small>
             </div>
 
