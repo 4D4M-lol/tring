@@ -1,0 +1,19 @@
+@import url("variables.css");
+@import url("navbar.css");
+@import url("sidebar.css");
+@import url("feed.css");
+@import url("auth.css");
+@import url("profile.css");
+@import url("comments.css");
+@import url("search.css");
+@import url("admin.css");
+@import url("withdraw.css");
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}

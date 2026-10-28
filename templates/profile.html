@@ -1,56 +1,78 @@
-{% extends "base.html" %}
-
-{% block title %}{{ user.username }} | SolveHub{% endblock %}
+{% extends 'base.html' %}
+{% from "macros/post.html" import render_post %}
 
 {% block content %}
-
 <div class="profile-container">
+    
+    <div class="profile-card">
+        <div class="profile-banner" 
+            style="{% if user.banner_pic %} background-image: url('{{ url_for('static', filename='uploads/banners/' ~ user.banner_pic) }}'); background-size: cover; background-position: center; {% endif %}">
+        </div>
 
-    <section class="profile-card">
+        <div class="profile-header-content">
+            <div class="profile-avatar-wrapper">
+                {% if user.profile_picture and user.profile_picture != 'default.jpg' %}
+                    <img src="{{ url_for('static', filename='uploads/avatars/' ~ user.profile_picture) }}" alt="{{ user.username }}" class="profile-avatar-img">
+                {% else %}
+                    <div class="profile-avatar-placeholder">
+                        {{ user.username[0] | upper }}
+                    </div>
+                {% endif %}
+            </div>
 
-        <img
-            src="{{ url_for(
-                'static',
-                filename='uploads/avatars/' + user.profile_picture
-            ) }}"
-            class="profile-avatar"
-            alt="Profile picture"
-        >
+            <div class="profile-user-details">
+                <div class="profile-title-row">
+                    <div>
+                        <h1 class="profile-display-name">@{{ user.username }}</h1>
+                        <p class="profile-joined">Joined {{ user.created_at.strftime("%B %Y") if user.created_at else "Recently" }}</p>
+                        
+                        {% if user.bio %}
+                            <p class="profile-bio">{{ user.bio }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    {% if current_user.is_authenticated and current_user.username == user.username %}
+                        <a href="{{ url_for('profile.settings') }}" class="btn-edit-profile" style="display: inline-block !important; background: #6366f1; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                            Edit Profile
+                        </a>
+                    {% endif %}
+                </div>
 
-        <h1>{{ user.username }}</h1>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">{{ user.reputation }}</span>
+                        <span class="stat-label">Reputation</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">{{ user.brainpoints }}</span>
+                        <span class="stat-label">Brainpoints</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">{{ user.posts|length }}</span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">{{ user.comments|length }}</span>
+                        <span class="stat-label">Comments</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <p class="profile-description">
-            SolveHub member
-        </p>
+    <div class="profile-feed-header">
+        <h2>Posts by @{{ user.username }}</h2>
+    </div>
 
-
-        <form
-            action="{{ url_for('profile.upload_picture') }}"
-            method="POST"
-            enctype="multipart/form-data"
-            class="avatar-form"
-        >
-
-            <label for="profile_picture">
-                Change profile picture
-            </label>
-
-            <input
-                type="file"
-                id="profile_picture"
-                name="profile_picture"
-                accept=".png,.jpg,.jpeg,.webp"
-                required
-            >
-
-            <button type="submit" class="primary-button">
-                Upload Picture
-            </button>
-
-        </form>
-
-    </section>
-
+    <div class="posts-list">
+        {% for post in user.posts %}
+            {{ render_post(posts, post, user_votes) }}
+        {% else %}
+            <div class="empty-state">
+                <i data-lucide="file-text" style="width: 48px; height: 48px; color: var(--text-secondary);"></i>
+                <p>This user haven't posted anything.</p>
+            </div>
+        {% endfor %}
+    </div>
 </div>
-
 {% endblock %}

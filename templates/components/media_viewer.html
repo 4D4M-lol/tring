@@ -1,0 +1,41 @@
+{% if post.media %}
+<div class="post-media-container my-3">
+    {% for item in post.media %}
+        <div class="media-item my-2">
+            
+            {% if item.media_type == "image" %}
+                <img 
+                    src="{{ url_for('static', filename='uploads/posts/' ~ item.file_path) }}" 
+                    alt="Post Attachment" 
+                    class="img-fluid rounded"
+                    style="max-height: 500px; object-fit: contain;"
+                >
+
+            {% elif item.media_type == "image" %}
+                <video controls class="w-100 rounded">
+                    <source src="{{ url_for('static', filename='uploads/posts/' ~ item.file_path) }}">
+                    Your browser doesn't support videos.
+                </video>
+
+            {% elif item.media_type == "audio" %}
+                <div class="p-3 bg-light rounded border">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-2">🎵</span>
+                        <small class="text-muted text-truncate">{{ item.file_path }}</small>
+                    </div>
+                    <audio controls class="w-100">
+                        <source src="{{ url_for('static', filename='uploads/posts/' ~ item.file_path) }}">
+                        Your browser doesn't support audios.
+                    </audio>
+                </div>
+
+            {% else %}
+                <a href="{{ url_for('static', filename='uploads/posts/' ~ item.file_path) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                    Download File ({{ item.file_path }})
+                </a>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+</div>
+{% endif %}

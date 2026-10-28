@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% from "macros/post.html" import render_post %}
+
+{% block content %}
+<div class="search-wrapper">
+    <div class="search-header">
+        <h2>Search Results</h2>
+        {% if query %}
+            <p>Showing results for <strong>"{{ query }}"</strong></p>
+        {% else %}
+            <p>Type a query in the search bar to search a user or a post.</p>
+        {% endif %}
+    </div>
+
+    {% if query %}
+        <div class="search-section">
+            <div class="section-title">
+                <span>Users</span>
+                <span class="badge-count">{{ users|length }}</span>
+            </div>
+
+            {% if users %}
+                <div class="user-list" id="search-user-list">
+                    {% for user in users %}
+                        <div class="user-card-wrapper {% if loop.index > 4 %}user-item-hidden{% endif %}">
+                            <a href="{{ url_for('profile.view_profile', username=user.username) }}" class="user-card">
+                                <div class="user-info">
+                                    {% if user.profile_picture and user.profile_picture != 'default.jpg' %}
+                                        <img 
+                                            src="{{ url_for('static', filename='uploads/avatars/' ~ user.profile_picture) }}" 
+                                            alt="{{ user.username }}" 
+                                            class="user-avatar-img"
+                                        >
+                                    {% else %}
+                                        <div class="user-avatar-initial">
+                                            {{ user.username[0]|upper }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="user-name">@{{ user.username }}</div>
+                                </div>
+                                <span class="btn-profile">See Profile</span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% if users|length > 4 %}
+                    <button type="button" class="btn-show-more-users" id="toggle-users-btn" onclick="toggleMoreUsers()">
+                        Show More Users ({{ users|length - 4 }} more)
+                    </button>
+                {% endif %}
+            {% else %}
+                <div class="empty-state">
+                    User "{{ query }}" not found.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="search-section">
+            <div class="section-title">
+                <span>Posts</span>
+                <span class="badge-count">{{ posts|length }}</span>
+            </div>
+
+            {% if posts %}
+                <div class="post-list">
+                    {% for post in posts %}
+                        {{ render_post(posts, post, user_votes) }}
+                    {% else %}
+                        <p style="color: var(--text-secondary); text-align: center; padding: 32px;">Be the first one to post!</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    No post found for "{{ query }}".
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function toggleMoreUsers() {
+    const hiddenItems = document.querySelectorAll(".user-item-hidden");
+    const btn = document.getElementById("toggle-users-btn");
+    
+    let isExpanded = btn.getAttribute("data-expanded") === "true";
+
+    hiddenItems.forEach(item => {
+        item.style.display = isExpanded ? "none" : "block";
+    });
+
+    if (isExpanded) {
+        btn.setAttribute("data-expanded", "false");
+        btn.innerHTML = `Show More Users (${hiddenItems.length} more)`;
+    } else {
+        btn.setAttribute("data-expanded", "true");
+        btn.innerHTML = "Show Less Users";
+    }
+}
+
+function toggleReplies(containerId, btn) {
+    const container = document.getElementById(containerId);
+    const spanText = btn.querySelector("span");
+    const icon = btn.querySelector("[data-lucide]");
+
+    if (container.style.display === "none") {
+        container.style.display = "flex";
+        spanText.innerText = `Sembunyikan Balasan`;
+        if (icon) icon.setAttribute("data-lucide", "chevron-down");
+    } else {
+        container.style.display = "none";
+        spanText.innerText = `Tampilkan Balasan`;
+        if (icon) icon.setAttribute("data-lucide", "chevron-right");
+    }
+
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+}
+</script>
+{% endblock %}

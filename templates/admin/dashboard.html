@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | Tring{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h2>Admin Dashboard</h2>
+    <p class="admin-subtitle">Kelola platform, moderasi konten, dan transaksi pengguna dari sini.</p>
+
+    <div class="admin-stats-grid">
+        <div class="card admin-stat-card">
+            <div class="stat-title">Total Pengguna</div>
+            <div class="stat-value">{{ total_users }}</div>
+        </div>
+        <div class="card admin-stat-card">
+            <div class="stat-title">Total Postingan</div>
+            <div class="stat-value">{{ total_posts }}</div>
+        </div>
+        <div class="card admin-stat-card">
+            <div class="stat-title">Penarikan Pending</div>
+            <div class="stat-value pending-text">{{ pending_withdrawals }}</div>
+        </div>
+    </div>
+
+    <div class="admin-menu-actions">
+        <a href="{{ url_for('admin.manage_withdrawals') }}" class="btn-primary">Kelola Penarikan Dana</a>
+        <a href="{{ url_for('admin.manage_users') }}" class="btn-secondary">Kelola Pengguna</a>
+    </div>
+</div>
+{% endblock %}

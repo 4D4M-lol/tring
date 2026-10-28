@@ -1,198 +1,66 @@
 {% extends "base.html" %}
-
-{% block title %}SolveHub{% endblock %}
+{% from "macros/post.html" import render_post %}
 
 {% block content %}
+<div class="layout-container">
 
-<div class="page-container">
+    <aside class="sidebar-left">
+        <a href="{{ url_for('main.home') }}" class="nav-item {{ 'active' if not current_category }}">
+            <i data-lucide="home"></i> All Posts
+        </a>
 
-    <div class="forum-toolbar">
+        <div style="margin: 16px 0 8px 12px; font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">
+            Categories
+        </div>
 
-        <button class="category-dropdown">
-            All Categories
-            <i data-lucide="chevron-down"></i>
-        </button>
+        {% for category in categories %}
+            <a href="{{ url_for('main.home', category=category.slug) }}" class="nav-item {{ 'active' if current_category and current_category.id == category.id }}">
+                <i data-lucide="{{ category.icon or 'hash' }}"></i> {{ category.name }}
+            </a>
+        {% endfor %}
+    </aside>
 
-        <nav class="forum-tabs">
-            <a href="#" class="active">Categories</a>
-            <a href="#">Latest</a>
-            <a href="#">Top</a>
-        </nav>
+    <main class="feed-container">
 
-    </div>
+        {% for post in posts %}
+            {{ render_post(posts, post, user_votes) }}
+        {% else %}
+            <p style="color: var(--text-secondary); text-align: center; padding: 32px;">Be the first one to post!</p>
+        {% endfor %}
 
+    </main>
 
-    <section class="forum-list">
-
-        <!-- Category -->
-
-        <article class="category">
-
-            <div class="category-icon blue">
-                <i data-lucide="help-circle"></i>
-            </div>
-
-            <div class="category-info">
-
-                <h2>Ask the Community</h2>
-
-                <p>
-                    Ask questions, share knowledge,
-                    and get help from other users.
-                </p>
-
-                <div class="tags">
-                    <span>Questions</span>
-                    <span>Discussion</span>
-                </div>
-
-            </div>
-
-            <div class="category-posts">
-
-                <a href="#">
-                    How do I solve this problem?
-                    <span>2h</span>
-                </a>
-
-                <a href="#">
-                    Best way to learn Python?
-                    <span>5h</span>
-                </a>
-
-                <a href="#">
-                    Need help with Arduino
-                    <span>1d</span>
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <article class="category">
-
-            <div class="category-icon green">
-                <i data-lucide="lightbulb"></i>
-            </div>
-
-            <div class="category-info">
-
-                <h2>Share Knowledge</h2>
-
-                <p>
-                    Share useful knowledge, tips,
-                    guides, and discoveries.
-                </p>
-
-                <div class="tags">
-                    <span>Tips</span>
-                    <span>Guides</span>
-                </div>
-
-            </div>
-
-            <div class="category-posts">
-
-                <a href="#">
-                    A useful Python trick
-                    <span>4h</span>
-                </a>
-
-                <a href="#">
-                    How databases actually work
-                    <span>8h</span>
-                </a>
-
-                <a href="#">
-                    My experience learning Linux
-                    <span>2d</span>
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <article class="category">
-
-            <div class="category-icon yellow">
-                <i data-lucide="rocket"></i>
-            </div>
-
-            <div class="category-info">
-
-                <h2>Ideas & Projects</h2>
-
-                <p>
-                    Show your projects, ideas,
-                    and things you're working on.
-                </p>
-
-                <div class="tags">
-                    <span>Projects</span>
-                    <span>Ideas</span>
-                </div>
-
-            </div>
-
-            <div class="category-posts">
-
-                <a href="#">
-                    My first robotics project
-                    <span>3h</span>
-                </a>
-
-                <a href="#">
-                    Building a Flask website
-                    <span>1d</span>
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <article class="category">
-
-            <div class="category-icon red">
-                <i data-lucide="bug"></i>
-            </div>
-
-            <div class="category-info">
-
-                <h2>Problems & Bugs</h2>
-
-                <p>
-                    Something isn't working?
-                    Ask the community for help.
-                </p>
-
-                <div class="tags">
-                    <span>Programming</span>
-                    <span>Technical</span>
-                </div>
-
-            </div>
-
-            <div class="category-posts">
-
-                <a href="#">
-                    Flask gives me this error
-                    <span>1h</span>
-                </a>
-
-                <a href="#">
-                    Arduino sensor isn't responding
-                    <span>6h</span>
-                </a>
-
-            </div>
-
-        </article>
-
-    </section>
+    <aside class="sidebar-right">
+        <div class="widget-card">
+            <h3>About SolveHub</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 12px;">
+                A community-driven platform to ask questions and share knowledge.
+            </p>
+            <a href="{{ url_for('posts.create_post') }}" class="btn-primary" style="display: block; text-align: center; text-decoration: none;">Create Post</a>
+        </div>
+    </aside>
 
 </div>
 
+<script>
+function sharePost(url, btn) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+            const originalHTML = btn.innerHTML;
+
+            btn.innerHTML = "<i data-lucide=\"check\"></i> <span>Tersalin!</span>";
+            
+            if (typeof lucide !== "undefined") lucide.createIcons();
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+
+                if (typeof lucide !== "undefined") lucide.createIcons();
+            }, 2000);
+        });
+    } else {
+        alert("Post link: " + url);
+    }
+}
+</script>
 {% endblock %}

@@ -1,0 +1,220 @@
+.search-wrapper {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.search-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #2e2e3e);
+}
+
+.search-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #ffffff);
+}
+
+.search-header p {
+    color: var(--text-secondary, #a0a0b0);
+    font-size: 0.95rem;
+}
+
+.search-section {
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary, #ffffff);
+    margin-bottom: 1rem;
+}
+
+.badge-count {
+    background-color: var(--bg-input, #2a2a3c);
+    color: var(--text-secondary, #a0a0b0);
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-color, #3e3e52);
+}
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    background-color: var(--bg-card, #1e1e2d);
+    border: 1px solid var(--border-color, #2e2e3e);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.user-card:hover {
+    border-color: var(--accent-color, #6c5ce7);
+    transform: translateY(-1px);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-avatar-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--border-color, #3e3e52);
+}
+
+.user-avatar-initial {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--accent-color, #6c5ce7);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text-primary, #ffffff);
+}
+
+.user-item-hidden {
+    display: none;
+}
+
+.btn-show-more-users {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--bg-card);
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s;
+}
+
+.btn-show-more-users:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.btn-profile {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid var(--border-color, #3e3e52);
+    color: var(--text-primary, #ffffff);
+    cursor: pointer;
+}
+
+.post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.search-post-card {
+    padding: 1.25rem;
+    background-color: var(--bg-card, #1e1e2d);
+    border: 1px solid var(--border-color, #2e2e3e);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.search-post-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary, #ffffff);
+    text-decoration: none;
+}
+
+.search-post-title:hover {
+    color: var(--accent-color, #6c5ce7);
+}
+
+.search-post-snippet {
+    color: var(--text-secondary, #a0a0b0);
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.search-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text-muted, #707080);
+    margin-top: 0.5rem;
+}
+
+.post-author-avatar-img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color, #3e3e52);
+}
+
+.post-author-avatar-initial {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: var(--accent-color, #6c5ce7);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+.post-author-link {
+    color: var(--text-primary, #ffffff);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.post-author-link:hover {
+    text-decoration: underline;
+}
+
+.empty-state {
+    padding: 1.5rem;
+    text-align: center;
+    background-color: var(--bg-card, #1e1e2d);
+    border: 1px dashed var(--border-color, #2e2e3e);
+    border-radius: 8px;
+    color: var(--text-secondary, #a0a0b0);
+    font-size: 0.9rem;
+}

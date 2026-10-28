@@ -1,0 +1,85 @@
+{% macro render_comment(comment, post, user_comment_votes, current_user) %}
+
+<div class="comment-item {{ 'best-answer-item' if (post.solved_comment_id == comment.id) }}" id="comment-{{ comment.id }}">
+
+    {% if post.solved_comment_id == comment.id %}
+        <div class="best-answer-badge">
+            <i data-lucide="check"></i> Best Answer
+        </div>
+    {% endif %}
+
+    <div class="comment-header">
+        <img 
+            src="{{ url_for('static', filename='uploads/avatars/' + (comment.user.profile_picture or 'default.jpg')) }}" 
+            class="comment-avatar" 
+            alt="{{ comment.user.username }}"
+        >
+        <a href="{{ url_for('profile.view_profile', username=comment.user.username) }}" class="comment-author">
+            @{{ comment.user.username }}
+        </a>
+        <span class="comment-date">• {{ comment.created_at.strftime("%Y-%m-%d %H:%M") }}</span>
+    </div>
+
+    <div class="comment-body">
+        {{ comment.content }}
+    </div>
+
+    <div class="comment-actions">
+        <div class="comment-vote-box">
+            <form action="{{ url_for('posts.vote_comment', comment_id=comment.id) }}" method="POST">
+                <input type="hidden" name="vote_type" value="1">
+                <button type="submit" class="comment-vote-btn {{ 'active-like' if user_comment_votes.get(comment.id) == 1 }}">
+                    <i data-lucide="thumbs-up"></i>
+                    <span>{{ comment.likes_count }}</span>
+                </button>
+            </form>
+
+            <span class="vote-divider">|</span>
+
+            <form action="{{ url_for('posts.vote_comment', comment_id=comment.id) }}" method="POST">
+                <input type="hidden" name="vote_type" value="-1">
+                <button type="submit" class="comment-vote-btn {{ 'active-dislike' if user_comment_votes.get(comment.id) == -1 }}">
+                    <i data-lucide="thumbs-down"></i>
+                    <span>{{ comment.dislikes_count }}</span>
+                </button>
+            </form>
+        </div>
+
+        <button type="button" class="btn-reply" onclick="toggleReplyForm('{{ comment.id }}')">
+            <i data-lucide="message-square"></i> Reply
+        </button>
+
+        {% if comment.replies %}
+            <button type="button" class="btn-toggle-replies" onclick="toggleReplies('replies-container-{{ comment.id }}', this)">
+                <i data-lucide="chevron-down"></i>
+                <span>Sembunyikan Balasan ({{ comment.replies|length }})</span>
+            </button>
+        {% endif %}
+
+        {% if current_user.is_authenticated and current_user.id == post.user_id and not post.is_solved %}
+            <form action="{{ url_for('posts.mark_solution', post_id=post.id, comment_id=comment.id) }}" method="POST" class="inline-form">
+                <button type="submit" class="btn-solution {{ 'active' if (post.solved_comment_id == comment.id) }}">
+                    Mark as Solution
+                </button>
+            </form>
+        {% endif %}
+    </div>
+
+    <form action="{{ url_for('posts.add_comment', post_id=post.id) }}" method="POST" class="reply-form" id="reply-form-{{ comment.id }}" style="display: none;">
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+        <textarea name="content" rows="2" placeholder="Tulis balasan..." required></textarea>
+        <div class="reply-actions-wrapper">
+            <button type="button" class="btn-secondary" onclick="toggleReplyForm('{{ comment.id }}')">Cancel</button>
+            <button type="submit" class="btn-primary">Send Reply</button>
+        </div>
+    </form>
+    
+    {% if comment.replies %}
+        <div class="comment-replies" id="replies-container-{{ comment.id }}">
+            {% for reply in comment.replies %}
+                {{ render_comment(reply, post, user_comment_votes, current_user) }}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endmacro %}

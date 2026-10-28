@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Penarikan | Admin Tring{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header-row">
+        <h2>Daftar Permintaan Penarikan Poin</h2>
+        <a href="{{ url_for('admin.dashboard') }}" class="back-link">← Kembali ke Dashboard</a>
+    </div>
+
+    {% if requests %}
+        <div class="withdrawal-list">
+            {% for req in requests %}
+                <div class="withdrawal-card">
+                    <div class="withdrawal-info">
+                        <div class="withdrawal-user">
+                            @{{ req.user.username }} • <span class="method-tag">{{ req.payment_method }}</span>
+                        </div>
+                        <div class="withdrawal-target">
+                            Tujuan: <strong>{{ req.account_number }}</strong>
+                        </div>
+                        <div class="withdrawal-amount">
+                            Jumlah: <strong>{{ req.points_deducted }} Poin</strong> ➔ <strong>Rp {{ "{:,.0f}".format(req.amount_rupiah) }}</strong>
+                        </div>
+                        <div class="withdrawal-meta">
+                            Waktu: {{ req.created_at.strftime('%Y-%m-%d %H:%M') }} | Status: 
+                            <span class="status-badge status-{{ req.status | lower }}">
+                                {{ req.status }}
+                            </span>
+                        </div>
+                    </div>
+
+                    {% if req.status == 'Pending' %}
+                        <div class="withdrawal-actions">
+                            <form action="{{ url_for('admin.withdrawal_action', req_id=req.id, action='approve') }}" method="POST">
+                                <button type="submit" class="btn-approve">Setujui</button>
+                            </form>
+                            <form action="{{ url_for('admin.withdrawal_action', req_id=req.id, action='reject') }}" method="POST" onsubmit="return confirm('Tolak penarikan ini? Poin akan dikembalikan ke user.');">
+                                <button type="submit" class="btn-reject">Tolak</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="withdrawal-done">Selesai diproses</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="empty-text">Belum ada permintaan penarikan dana.</p>
+    {% endif %}
+</div>
+{% endblock %}

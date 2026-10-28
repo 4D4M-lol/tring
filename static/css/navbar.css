@@ -1,0 +1,192 @@
+.navbar {
+    height: auto; /* Biarkan tinggi menyesuaikan konten jika turun ke bawah di HP */
+    min-height: 56px;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap; /* Memungkinkan elemen turun baris jika layar sempit */
+    gap: 12px;
+}
+
+.tring {
+    font-family: "Righteous", sans-serif !important;
+    font-size: 22px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.logo-icon img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    display: block;
+}
+
+.search-form {
+    flex: 1;
+    max-width: 500px;
+    min-width: 200px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    padding: 8px 16px 8px 40px;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.search-input-wrapper input:focus {
+    outline: none;
+    border-color: var(--accent-orange);
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    width: 18px;
+    height: 18px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background-color: var(--accent-orange);
+    color: white;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 4px;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.profile-link:hover {
+    background-color: var(--bg-card-hover);
+}
+
+.nav-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+.btn-theme-toggle {
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 6px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-theme-toggle:hover {
+    background: var(--bg-card-hover);
+}
+
+.btn-theme-toggle svg {
+    width: 16px;
+    height: 16px;
+}
+
+.user-points-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background-color: rgba(234, 179, 8, 0.15);
+    color: #ca8a04;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 16px;
+    border: 1px solid rgba(202, 138, 4, 0.3);
+    white-space: nowrap;
+}
+
+.user-points-badge svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* --- RESPONSIF KHUSUS LAYAR HP (Maksimal 768px) --- */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 8px 12px;
+    }
+
+    /* Pindahkan kolom search ke baris kedua agar tidak mendesak logo & menu */
+    .search-form {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 4px;
+    }
+
+    /* Sembunyikan teks nama user panjang di HP, sisakan avatar atau singkat jika perlu */
+    .profile-link span {
+        display: none; 
+    }
+
+    .profile-link {
+        padding: 4px;
+    }
+}

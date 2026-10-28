@@ -1,0 +1,337 @@
+.post-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    display: flex;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+}
+
+.post-card:hover {
+    border-color: #34484e;
+}
+
+.vote-column {
+    width: 48px;
+    background-color: rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    border-top-left-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
+}
+
+.vote-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+}
+
+.vote-btn:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--upvote-color);
+}
+
+.vote-btn.active-up {
+    color: var(--upvote-color);
+}
+
+.vote-btn.active-up svg {
+    fill: var(--upvote-color);
+}
+
+.vote-btn.active-down {
+    color: var(--downvote-color);
+}
+
+.vote-btn.active-down svg {
+    fill: var(--downvote-color);
+}
+
+.vote-count {
+    color: var(--text-primary);
+    font-size: 12px;
+    font-weight: 700;
+    margin: 4px 0;
+}
+
+.post-content {
+    padding: 12px;
+    flex: 1;
+}
+
+.post-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.post-meta .community-name {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.post-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.category-badge {
+    background-color: var(--bg-card-hover);
+    color: var(--text-primary);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.post-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.vote-group {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-input);
+    border-radius: 20px;
+    padding: 2px 8px;
+}
+
+.vote-divider {
+    color: #ccc;
+    font-size: 12px;
+    user-select: none;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary, #111);
+}
+
+.action-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.action-btn.active-like {
+    color: var(--upvote-color);
+}
+
+.action-btn.active-like svg {
+    fill: var(--upvote-color);
+}
+
+.action-btn.active-dislike {
+    color: var(--downvote-color);
+}
+
+.action-btn.active-dislike svg {
+    fill: var(--downvote-color);
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.post-author-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.post-author-avatar img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+.avatar-placeholder {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+}
+
+.author-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.author-link:hover {
+    text-decoration: underline;
+}
+
+.search-form {
+    flex: 1;
+    max-width: 400px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    padding: 8px 12px 8px 38px;
+    border-radius: var(--radius-full, 9999px);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-input-wrapper input:focus {
+    border-color: var(--accent-color, #6366f1);
+}
+
+.post-media-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
+.media-item img {
+    width: 100%;
+    max-height: 380px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #2e2e3e);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.media-item img:hover {
+    transform: scale(1.01);
+}
+
+.media-item video {
+    width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+    background: #000;
+}
+
+.audio-player-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-input, #1e1e2e);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #2e2e3e);
+}
+
+.audio-player-wrapper audio {
+    width: 100%;
+    height: 36px;
+}
+
+/* Memastikan teks panjang otomatis turun ke bawah (tidak tembus ke kanan) */
+.post-content, 
+.post-title, 
+.detail-text, 
+.comment-body {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    min-width: 0; /* Mencegah flexbox item meluber keluar */
+}
+
+/* Pastikan semua gambar dan video di dalam post tidak melebihi lebar kontainer */
+.post-card img,
+.post-card video,
+.media-item img,
+.media-item video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 576px) {
+    .post-card {
+        border-radius: 0; /* Membuat card rata pinggir layar di HP kecil agar lebih luas */
+        border-left: none;
+        border-right: none;
+    }
+
+    .post-content {
+        padding: 10px;
+    }
+
+    .post-title {
+        font-size: 16px; /* Sedikit mengecilkan judul post agar tidak terlalu makan tempat */
+    }
+
+    .post-media-container {
+        grid-template-columns: 1fr; /* Gambar di dalam post menjadi 1 kolom penuh ke bawah */
+    }
+}

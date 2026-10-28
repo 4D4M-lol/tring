@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Kelola Pengguna | Admin Tring{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header-row">
+        <h2>Manajemen Pengguna</h2>
+        <a href="{{ url_for('admin.dashboard') }}" class="back-link">← Kembali ke Dashboard</a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Brainpoints</th>
+                    <th>Role</th>
+                    <th class="text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                    <tr>
+                        <td class="text-muted">{{ u.id }}</td>
+                        <td class="font-weight-bold">@{{ u.username }}</td>
+                        <td>{{ u.brainpoints }} Bp</td>
+                        <td>
+                            {% if u.is_admin %}
+                                <span class="role-badge admin-role">Admin</span>
+                            {% else %}
+                                <span class="text-muted">Member</span>
+                            {% endif %}
+                        </td>
+                        <td class="action-cell">
+                            {% if u.id != current_user.id %}
+                                <form action="{{ url_for('admin.toggle_user_admin', user_id=u.id) }}" method="POST">
+                                    <button type="submit" class="btn-secondary-sm">
+                                        {{ 'Turunkan Admin' if u.is_admin else 'Jadikan Admin' }}
+                                    </button>
+                                </form>
+                                <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus user @{{ u.username }}? Tindakan ini permanen.');">
+                                    <button type="submit" class="btn-danger-sm">Hapus</button>
+                                </form>
+                            {% else %}
+                                <span class="self-label">Akun Anda</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

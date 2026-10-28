@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% from "macros/comment.html" import render_comment %}
+
+{% block title %}{{ post.title }} | Tring{% endblock %}
+
+{% block content %}
+<div class="post-detail-container">
+    
+    <main class="post-detail-main">
+        {% if post.is_solved %}
+        <div class="solved-banner">
+            <div class="solved-banner-content">
+                <i data-lucide="check-circle" class="solved-icon"></i>
+                <div>
+                    <strong>This post has been solved</strong>
+                    <p>The post maker has marked one of the comments as a solution.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <article class="post-card">
+            <div class="post-content">
+                <div class="post-meta">
+                    <a href="{{ url_for('profile.view_profile', username=post.user.username) }}" class="post-author-avatar">
+                        {% if post.user.profile_picture and post.user.profile_picture != "default.jpg" %}
+                            <img src="{{ url_for('static', filename='uploads/avatars/' ~ post.user.profile_picture) }}" alt="{{ post.user.username }}">
+                        {% else %}
+                            <div class="avatar-placeholder">
+                                {{ post.user.username[0] | upper }}
+                            </div>
+                        {% endif %}
+                    </a>
+
+                    <div class="post-meta-info">
+                        by 
+                        <a href="{{ url_for('profile.view_profile', username=post.user.username) }}" class="author-link">
+                            @{{ post.user.username }}
+                        </a> • 
+                        {% if post.category %}
+                            <span class="category-badge">{{ post.category.name }}</span>
+                        {% endif %}
+                        {% if post.is_solved %}
+                            <span class="badge-solved">SOLVED</span>
+                        {% endif %} • 
+                        {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}
+                    </div>
+                </div>
+                <h1 class="detail-title">{{ post.title }}</h1>
+                <p class="detail-text">{{ post.content }}</p>
+
+                {% include 'components/media_viewer.html' %}
+
+                <div class="post-actions-bar post-detail-actions-bar">
+                    <div class="vote-group">
+                        <form action="{{ url_for('posts.vote', post_id=post.id) }}" method="POST" class="inline-form">
+                            <input type="hidden" name="vote_type" value="1">
+                            <button type="submit" class="action-btn {{ 'active-like' if user_post_votes.get(post.id) == 1 }}">
+                                <i data-lucide="thumbs-up"></i>
+                                <span>{{ post.likes_count }}</span>
+                            </button>
+                        </form>
+
+                        <span class="vote-divider">|</span>
+
+                        <form action="{{ url_for('posts.vote', post_id=post.id) }}" method="POST" class="inline-form">
+                            <input type="hidden" name="vote_type" value="-1">
+                            <button type="submit" class="action-btn {{ 'active-dislike' if user_post_votes.get(post.id) == -1 }}">
+                                <i data-lucide="thumbs-down"></i>
+                                <span>{{ post.dislikes_count }}</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <button type="button" class="action-btn" onclick="sharePost('{{ url_for('posts.view_post', post_id=post.id, _external=True) }}', this)">
+                        <i data-lucide="share-2"></i>
+                        <span>Share</span>
+                    </button>
+                </div>
+            </div>
+        </article>
+
+        <form action="{{ url_for('posts.add_comment', post_id=post.id) }}" method="POST" class="main-comment-form">
+            <textarea name="content" rows="3" placeholder="Apa pendapatmu?" required></textarea>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Comment</button>
+            </div>
+        </form> 
+
+        <div class="comments-list">
+            {% for comment in comments %}
+                {% if not comment.parent_id %}
+                    {{ render_comment(comment, post, user_comment_votes, current_user) }}
+                {% endif %}
+            {% else %}
+                <p class="empty-comments">Be the first to comment!</p>
+            {% endfor %}
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+function toggleReplyForm(commentId) {
+    const form = document.getElementById(`reply-form-${commentId}`);
+
+    if (form.style.display === "none" || form.style.display === "") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
+}
+
+function toggleReplies(containerId, btn) {
+    const container = document.getElementById(containerId);
+    const spanText = btn.querySelector("span");
+
+    if (container.style.display === "none") {
+        container.style.display = "flex";
+        spanText.textContent = spanText.textContent.replace("Tampilkan", "Sembunyikan");
+    } else {
+        container.style.display = "none";
+        spanText.textContent = spanText.textContent.replace("Sembunyikan", "Tampilkan");
+    }
+
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+}
+
+function sharePost(url, btn) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+            const originalHTML = btn.innerHTML;
+
+            btn.innerHTML = `<i data-lucide="check"></i> <span>Copied!</span>`;
+
+            if (typeof lucide !== "undefined") lucide.createIcons();
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+
+                if (typeof lucide !== "undefined") lucide.createIcons();
+            }, 2000);
+        });
+    } else {
+        alert("Tautan postingan: " + url);
+    }
+}
+
+if (typeof lucide !== "undefined") {
+    lucide.createIcons();
+}
+</script>
+{% endblock %}

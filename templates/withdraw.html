@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Tukar Brainpoints | Tring{% endblock %}
+
+{% block content %}
+<div class="withdraw-container">
+    <div class="withdraw-card">
+        <h2>Tukar Brainpoints ke Uang Tunai</h2>
+        <p class="withdraw-subtitle">
+            Poin Anda saat ini: <strong class="highlight-points">{{ current_user.brainpoints }} Bp</strong> 
+            (Kurs: 100 Bp = Rp 1.000)
+        </p>
+
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label">Jumlah Poin yang Ingin Ditukar</label>
+                <input type="number" name="points" min="500" max="{{ current_user.brainpoints }}" placeholder="Minimal 500 poin" required class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Metode Pembayaran (E-Wallet / QRIS)</label>
+                <select name="payment_method" required class="form-select">
+                    <option value="" disabled selected>Pilih metode penarikan</option>
+                    <option value="QRIS">QRIS</option>
+                    <option value="DANA">DANA</option>
+                    <option value="GoPay">GoPay</option>
+                    <option value="ShopeePay">ShopeePay</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Nomor Akun / Rekening / No. HP Tujuan</label>
+                <input type="text" name="account_number" placeholder="Contoh: 081234567890" required class="form-input">
+            </div>
+
+            <button type="submit" class="btn-primary btn-full">Ajukan Penarikan</button>
+        </form>
+    </div>
+
+    <!-- Bagian Riwayat Penarikan -->
+    <div class="history-section">
+        <h3>Riwayat Penarikan Anda</h3>
+        {% if history %}
+            <div class="history-list">
+                {% for item in history %}
+                    <div class="history-card">
+                        <div class="history-info">
+                            <div class="history-amount">
+                                <strong>{{ item.points_deducted }} Bp</strong> ➔ Rp {{ "{:,.0f}".format(item.amount_rupiah) }}
+                            </div>
+                            <div class="history-details">
+                                <span class="method-badge">{{ item.payment_method }}</span> ({{ item.account_number }}) • {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}
+                            </div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-{{ item.status | lower }}">
+                                {{ item.status }}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-text">Belum ada riwayat penarikan poin.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
